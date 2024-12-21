@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PDF to JPG Converter</title>
+        <link rel="stylesheet" href="/styles.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>PDF to JPG Converter</h1>
+            <form
+                action="/download-pdf-to-jpg"
+                method="get"
+                class="converter-form"
+            >
+                <div class="input-group">
+                    <input
+                        type="text"
+                        name="download_link"
+                        placeholder="Enter PDF download link..."
+                        aria-label="PDF download link"
+                    />
+                </div>
+                <div class="input-group">
+                    <input
+                        type="text"
+                        name="filename"
+                        placeholder="Enter filename ..."
+                        aria-label="Filename"
+                    />
+                </div>
+                <button id="convertBtn" class="convert-button">Convert</button>
+            </form>
+        </div>
+    </body>
+</html>
