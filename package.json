@@ -16,11 +16,9 @@
   "dependencies": {
     "archiver": "^7.0.1",
     "axios": "^1.7.9",
+    "canvas": "^2.11.2",
     "encore.dev": "^1.45.2",
     "pdf-to-img": "^4.3.0",
     "zip": "^1.2.0"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
   }
 }
