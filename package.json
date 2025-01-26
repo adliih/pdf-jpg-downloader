@@ -16,7 +16,6 @@
   "dependencies": {
     "@napi-rs/canvas": "^0.1.65",
     "archiver": "^7.0.1",
-    "axios": "^1.7.9",
     "encore.dev": "^1.45.2",
     "pdf-to-img": "^4.3.0",
     "zip": "^1.2.0"

@@ -1,6 +1,6 @@
 import { pdf } from "pdf-to-img";
 
-export async function convertPDFToImages(pdfPath: string) {
+export async function convertPDFToImages(pdfPath: Parameters<typeof pdf>[0]) {
   try {
     // Read the PDF file
     const document = await pdf(pdfPath, { scale: 3 });
