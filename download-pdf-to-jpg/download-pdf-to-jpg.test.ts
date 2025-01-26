@@ -53,7 +53,7 @@ describe("PDF to JPG Download API", () => {
     expect(mockRes.setHeader).toHaveBeenCalledWith("Content-Type", "image/jpg");
     expect(mockRes.setHeader).toHaveBeenCalledWith(
       "Content-Disposition",
-      'attachment; filename="image.jpg"'
+      'filename="image.jpg"'
     );
     expect(mockRes.write).toHaveBeenCalledWith(mockImage);
   });
@@ -77,7 +77,7 @@ describe("PDF to JPG Download API", () => {
 
     expect(mockRes.setHeader).toHaveBeenCalledWith(
       "Content-Disposition",
-      `attachment; filename="${customFilename}.jpg"`
+      `filename="${customFilename}.jpg"`
     );
   });
 });

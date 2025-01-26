@@ -15,8 +15,6 @@ export async function convertPDFToImages(pdfPath: Parameters<typeof pdf>[0]) {
       throw new Error("No pages could be converted to images");
     }
 
-    console.log(`Converted Images`, images);
-
     return images;
   } catch (error) {
     console.error(error);

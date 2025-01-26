@@ -31,10 +31,7 @@ export const get = api.raw(
       if (!isMultipleImages) {
         const imageBuffer = images[0];
         res.setHeader("Content-Type", "image/jpg");
-        res.setHeader(
-          "Content-Disposition",
-          `attachment; filename="${filename}.jpg"`
-        );
+        res.setHeader("Content-Disposition", `filename="${filename}.jpg"`);
         res.write(imageBuffer);
         return;
       }
