@@ -6,7 +6,8 @@
   "license": "MPL-2.0",
   "type": "module",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "build:docker": "encore build docker pdf-jpg-downloader:latest"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
@@ -16,7 +17,7 @@
   "dependencies": {
     "@napi-rs/canvas": "^0.1.65",
     "archiver": "^7.0.1",
-    "encore.dev": "^1.45.2",
+    "encore.dev": "^1.46.1",
     "pdf-to-img": "^4.3.0",
     "zip": "^1.2.0"
   }
