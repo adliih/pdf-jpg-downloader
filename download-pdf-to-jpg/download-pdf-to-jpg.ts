@@ -32,7 +32,7 @@ export const get = api.raw(
         const imageBuffer = images[0];
         res.setHeader("Content-Type", "image/jpg");
         res.setHeader("Content-Disposition", `filename="${filename}.jpg"`);
-        res.write(imageBuffer);
+        res.end(imageBuffer);
         return;
       }
 
@@ -47,7 +47,7 @@ export const get = api.raw(
         "Content-Disposition",
         `attachment; filename="${filename}.zip"`
       );
-      res.write(zip);
+      res.end(zip);
     } catch (error) {
       console.error("Error processing PDF:", error);
       throw APIError.internal("Failed to process PDF");
