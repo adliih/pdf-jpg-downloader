@@ -1,3 +1,5 @@
+// pdfjs-dist loads this optionally at runtime; declare it so Vercel bundles the native module.
+import "@napi-rs/canvas";
 import { pdf } from "pdf-to-img";
 
 export async function convertPDFToImages(input: Buffer) {
