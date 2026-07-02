@@ -33,11 +33,16 @@ docker run --rm -p 7860:7860 pdf-jpg-downloader
 
 ## Deploy on Hugging Face Spaces
 
-1. Create a new Space at [huggingface.co/new-space](https://huggingface.co/new-space).
-2. Choose **Docker** as the SDK (or push this repo and set SDK to Docker in Space settings).
-3. Push this repository to the Space repo (or use “Import from GitHub” if the project is on GitHub).
-4. Ensure the Space README keeps the YAML header above (`sdk: docker`, `app_port: 7860`).
-5. Wait for the Space build; the app serves on the Space URL at `/`.
+Space: [adliih/pdf-jpg-downloader](https://huggingface.co/spaces/adliih/pdf-jpg-downloader) (Docker, port 7860).
+
+Pushes to **`main`** on GitHub sync to the Space via [GitHub Actions](https://huggingface.co/docs/hub/spaces-github-actions) (`.github/workflows/sync-to-hub.yml`). Add an `HF_TOKEN` secret with write access to the Space.
+
+Manual deploy:
+
+```bash
+hf upload adliih/pdf-jpg-downloader . . --repo-type space \
+  --exclude ".git/**" --exclude ".venv/**" --exclude "**/__pycache__/**"
+```
 
 No GPU is required. Use a **CPU basic** Space tier unless you expect heavy traffic.
 
