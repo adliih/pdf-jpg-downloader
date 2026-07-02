@@ -1,14 +1,10 @@
 import { pdf } from "pdf-to-img";
-import { ReadableStream } from "stream/web";
 
-export async function convertPDFToImages(input: ReadableStream) {
+export async function convertPDFToImages(input: Buffer) {
   try {
-    // Read the PDF file
-    const document = await pdf(input as unknown as NodeJS.ReadableStream, {
-      scale: 3,
-    });
+    const document = await pdf(input, { scale: 3 });
 
-    const images = [];
+    const images: Buffer[] = [];
 
     for await (const image of document) {
       images.push(image);

@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/download-pdf-to-jpg.ts": {
+      "maxDuration": 60
+    }
+  }
+}
