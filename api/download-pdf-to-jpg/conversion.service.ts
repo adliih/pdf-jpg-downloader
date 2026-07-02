@@ -1,15 +1,51 @@
-// pdfjs-dist loads this optionally at runtime; declare it so Vercel bundles the native module.
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
 import "@napi-rs/canvas";
-import { pdf } from "pdf-to-img";
+
+const apiDir = path.dirname(fileURLToPath(import.meta.url));
+const pdfjsRoot = path.join(apiDir, "pdfjs-dist");
+
+type PdfJsModule = typeof import("pdfjs-dist/legacy/build/pdf.mjs");
+
+let pdfjsModulePromise: Promise<PdfJsModule> | undefined;
+
+function loadPdfJs(): Promise<PdfJsModule> {
+  if (!pdfjsModulePromise) {
+    const pdfjsModuleUrl = pathToFileURL(
+      path.join(pdfjsRoot, "legacy/build/pdf.mjs"),
+    ).href;
+    pdfjsModulePromise = import(pdfjsModuleUrl) as Promise<PdfJsModule>;
+  }
+  return pdfjsModulePromise;
+}
 
 export async function convertPDFToImages(input: Buffer) {
   try {
-    const document = await pdf(input, { scale: 3 });
+    const pdfjs = await loadPdfJs();
+    const data = new Uint8Array(input);
+    const pdfDocument = await pdfjs.getDocument({
+      data,
+      standardFontDataUrl: path.join(pdfjsRoot, "standard_fonts/"),
+      cMapUrl: path.join(pdfjsRoot, "cmaps/"),
+      cMapPacked: true,
+      isEvalSupported: false,
+    }).promise;
 
     const images: Buffer[] = [];
+    const scale = 3;
 
-    for await (const image of document) {
-      images.push(image);
+    for (let pageNumber = 1; pageNumber <= pdfDocument.numPages; pageNumber++) {
+      const page = await pdfDocument.getPage(pageNumber);
+      const viewport = page.getViewport({ scale });
+      const { canvas } = pdfDocument.canvasFactory.create(
+        viewport.width,
+        viewport.height,
+        false,
+      );
+
+      await page.render({ canvas, viewport }).promise;
+      images.push(canvas.toBuffer("image/png"));
     }
 
     if (images.length === 0) {

@@ -9,6 +9,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "postinstall": "node scripts/copy-pdfjs-assets.mjs",
     "test": "vitest run",
     "dev": "vercel dev"
   },
@@ -21,7 +22,6 @@
   "dependencies": {
     "@napi-rs/canvas": "^0.1.100",
     "archiver": "^7.0.1",
-    "pdf-to-img": "^5.0.0",
     "pdfjs-dist": "~5.4.0"
   }
 }

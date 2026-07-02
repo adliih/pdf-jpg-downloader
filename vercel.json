@@ -3,9 +3,8 @@
     "api/download-pdf-to-jpg/index.ts": {
       "maxDuration": 60,
       "includeFiles": [
-        "node_modules/@napi-rs/**",
-        "node_modules/pdfjs-dist/**",
-        "node_modules/pdf-to-img/**"
+        "api/download-pdf-to-jpg/pdfjs-dist/**",
+        "node_modules/@napi-rs/**"
       ]
     }
   }

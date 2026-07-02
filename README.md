@@ -26,7 +26,7 @@ Connect this repository to [Vercel](https://vercel.com) or deploy with:
 vercel
 ```
 
-PDF conversion needs the **Node.js** runtime (not Edge). Rendering uses [pdf.js](https://github.com/mozilla/pdf.js) via `pdf-to-img`, which requires **`@napi-rs/canvas`** and **`pdfjs-dist`** (including font/cmap assets) at runtime on the server. The function uses `maxDuration: 60`; on the Hobby plan the limit is lower—use Pro or reduce PDF size/page count if you hit timeouts.
+PDF conversion needs the **Node.js** runtime (not Edge). Rendering uses [pdf.js](https://github.com/mozilla/pdf.js) with **`@napi-rs/canvas`**. A `postinstall` script copies `pdfjs-dist` (fonts/cmaps) into `api/download-pdf-to-jpg/pdfjs-dist` so Vercel includes those files with the function—do not remove the `postinstall` script. The function uses `maxDuration: 60`; on the Hobby plan the limit is lower—use Pro or reduce PDF size/page count if you hit timeouts.
 
 ## API
 
