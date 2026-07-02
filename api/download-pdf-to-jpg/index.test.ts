@@ -1,12 +1,12 @@
-import handler from "./download-pdf-to-jpg";
-import { downloadPDFAsBuffer } from "../lib/download.service";
-import { convertPDFToImages } from "../lib/conversion.service";
+import handler from "./index.js";
+import { downloadPDFAsBuffer } from "./download.service.js";
+import { convertPDFToImages } from "./conversion.service.js";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-vi.mock("../lib/download.service");
-vi.mock("../lib/conversion.service");
-vi.mock("../lib/zip", () => ({
+vi.mock("./download.service.js");
+vi.mock("./conversion.service.js");
+vi.mock("./zip.js", () => ({
   zipBuffers: vi.fn().mockResolvedValue(Buffer.from("zip-data")),
 }));
 

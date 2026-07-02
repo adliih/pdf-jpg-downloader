@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { downloadPDFAsBuffer } from "../lib/download.service";
-import { convertPDFToImages } from "../lib/conversion.service";
-import { zipBuffers } from "../lib/zip";
+import { downloadPDFAsBuffer } from "./download.service.js";
+import { convertPDFToImages } from "./conversion.service.js";
+import { zipBuffers } from "./zip.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {

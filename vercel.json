@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/download-pdf-to-jpg.ts": {
+    "api/download-pdf-to-jpg/index.ts": {
       "maxDuration": 60
     }
   }
