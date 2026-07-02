@@ -1,3 +1,8 @@
-node_modules
-.vercel
-api/download-pdf-to-jpg/pdfjs-dist
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.vercel/
+node_modules/
+.DS_Store

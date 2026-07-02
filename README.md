@@ -1,47 +1,62 @@
-# PDF to image downloader
+---
+title: PDF to PNG Converter
+emoji: 📄
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+license: mpl-2.0
+---
 
-Fetches a PDF from a URL, renders each page to PNG, and returns a single image or a ZIP of multiple pages.
+# PDF to PNG Converter
 
-## Stack
+Small FastAPI app: paste a public PDF URL (e.g. Google Sheets export), get PNG page images back (single file or ZIP).
 
-- Static UI in `public/`
-- Serverless API at `/api/download-pdf-to-jpg` (Node.js, up to 60s on Vercel Pro)
-
-## Local development
-
-Install the [Vercel CLI](https://vercel.com/docs/cli), then:
-
-```bash
-npm install
-npm run dev
-```
-
-Open the URL shown by `vercel dev` (typically `http://localhost:3000`).
-
-## Deploy
-
-Connect this repository to [Vercel](https://vercel.com) or deploy with:
+## Run locally
 
 ```bash
-vercel
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 7860
 ```
 
-PDF conversion needs the **Node.js** runtime (not Edge). Rendering uses [pdf.js](https://github.com/mozilla/pdf.js) with **`@napi-rs/canvas`**. A `postinstall` script copies `pdfjs-dist` (fonts/cmaps) into `api/download-pdf-to-jpg/pdfjs-dist` so Vercel includes those files with the function—do not remove the `postinstall` script. The function uses `maxDuration: 60`; on the Hobby plan the limit is lower—use Pro or reduce PDF size/page count if you hit timeouts.
+Open [http://localhost:7860](http://localhost:7860).
+
+## Docker
+
+```bash
+docker build -t pdf-jpg-downloader .
+docker run --rm -p 7860:7860 pdf-jpg-downloader
+```
+
+## Deploy on Hugging Face Spaces
+
+1. Create a new Space at [huggingface.co/new-space](https://huggingface.co/new-space).
+2. Choose **Docker** as the SDK (or push this repo and set SDK to Docker in Space settings).
+3. Push this repository to the Space repo (or use “Import from GitHub” if the project is on GitHub).
+4. Ensure the Space README keeps the YAML header above (`sdk: docker`, `app_port: 7860`).
+5. Wait for the Space build; the app serves on the Space URL at `/`.
+
+No GPU is required. Use a **CPU basic** Space tier unless you expect heavy traffic.
 
 ## API
 
-`GET /api/download-pdf-to-jpg`
+`GET /download-pdf-to-jpg` (alias: `/api/download-pdf-to-jpg`)
 
-| Query param     | Required | Description                                      |
-|-----------------|----------|--------------------------------------------------|
-| `download_link` | yes      | Public URL of the PDF to fetch                   |
-| `filename`      | no       | Base name for the output file (default: `image`) |
+| Query param     | Required | Description                                |
+|-----------------|----------|--------------------------------------------|
+| `download_link` | yes      | Public HTTPS URL that returns a PDF body   |
+| `filename`      | no       | Base name for downloads (default: `image`) |
 
-- One page: `Content-Type: image/png`, filename `{filename}.png`
-- Multiple pages: `application/zip`, filename `{filename}.zip`
+- One page → `image/png` (`{filename}.png`)
+- Multiple pages → `application/zip` (`{filename}.zip`)
 
-## Tests
+`GET /health` → `{"status":"ok"}`
 
-```bash
-npm test
-```
+## Notes
+
+- Output is **PNG** (PyMuPDF); the route name is kept for compatibility.
+- The PDF URL must be reachable from the server (works well for Google Sheets `exportFormat=pdf` links).
+- Large PDFs or high page counts may hit Space memory or timeout limits; reduce export scale in the source if needed.
