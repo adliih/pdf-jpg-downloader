@@ -75,13 +75,7 @@ async def convert_download(
         raise HTTPException(status_code=500, detail="Failed to process PDF") from exc
 
     if len(pages) == 1:
-        return Response(
-            content=pages[0],
-            media_type="image/png",
-            headers={
-                "Content-Disposition": f'attachment; filename="{base_name}.png"',
-            },
-        )
+        return Response(content=pages[0], media_type="image/png")
 
     zip_bytes = build_zip(
         [(f"{base_name}-{index}.png", data) for index, data in enumerate(pages, start=1)]
